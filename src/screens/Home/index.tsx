@@ -12,25 +12,24 @@ import { Participant } from "../../components/Participant";
 import { useState } from "react";
 
 export default function Home() {
-  // const participants = [
-  //   "Rodrigo",
-  //   "Vini",
-  //   "Diego",
-  //   "Myke",
-  //   "Karol",
-  //   "Kamyla",
-  //   "Josi",
-  //   "Washington",
-  //   "Sidney",
-  //   "Davi",
-  //   "Jane",
-  // ];
-
   const [participantName, setParticipantName] = useState("");
   const [participants, setParticipants] = useState<Array<string>>([]);
 
+  const [title, setTitle] = useState("");
+
+  const date = new Date();
+  const options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  } as const;
+  const locale = "pt-BR";
+
   function handleParticipantAdd() {
-    if (participants.includes(participantName)) {
+    if (!participantName) {
+      Alert.alert("Digite o nome do participante");
+    } else if (participants.includes(participantName)) {
       Alert.alert("Participante já foi inserido");
     } else {
       setParticipants([...participants, participantName]);
@@ -39,7 +38,7 @@ export default function Home() {
   }
 
   function handleParticipantRemove(name: string) {
-    Alert.alert("Remover", `Remover o participante ${name}?`, [
+    Alert.alert("Remover", `Quer mesmo remover ${name}?`, [
       {
         text: "Sim",
         onPress: () =>
@@ -56,9 +55,21 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.eventName}>Nome do Evento</Text>
+      <TextInput
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Nome do evento"
+        placeholderTextColor="#6B6B6B"
+        style={styles.eventName}
+      />
 
-      <Text style={styles.evenDate}>Sexta, 20 de Março de 2023</Text>
+      <View>
+        <View>
+          <Text style={styles.evenDate}>
+            {date.toLocaleDateString(locale, options)}
+          </Text>
+        </View>
+      </View>
 
       <View style={styles.form}>
         <TextInput
@@ -68,6 +79,7 @@ export default function Home() {
           value={participantName}
           onChangeText={setParticipantName}
         />
+
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
           <Text style={styles.buttonText}> + </Text>
         </TouchableOpacity>
@@ -80,7 +92,7 @@ export default function Home() {
           <Participant
             key={item}
             name={item}
-            onRemove={() => handleParticipantRemove("Rodrigo")}
+            onRemove={() => handleParticipantRemove(item)}
           />
         )}
         showsVerticalScrollIndicator={false}
