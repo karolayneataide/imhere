@@ -19,4 +19,3 @@ Isso iniciará o projeto em seu terminal. Para executar o projeto em um disposit
 - [React Native](https://reactnative.dev)
 - [Expo](https://expo.dev)
 - [Typescript](https://www.typescriptlang.org)
-- [React Navigation](https://reactnavigation.org)
